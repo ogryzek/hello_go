@@ -2,11 +2,11 @@
 
 ## 1.) Create an app
 
-Let's create a Hello World! app in Go to keep things simple :D
+Let's create a Hello World! app in [Go](https://golang.org/) to keep things simple :D
 
 ```go
 // main.go
-package main
+package hello_go
 
 import (
   "fmt"
@@ -23,3 +23,29 @@ func main(){
   http.ListenAndServe(":3000", nil)
 }
 ```
+
+## 2.) Create a [Docker](https://www.docker.com/) image  
+
+Create the Dockerfile  
+
+```Dockerfile
+FROM golang
+
+ADD . /go/src/github.com/ogryzek/hello_go
+RUN go install github.com/ogryzek/hello_go
+ENTRYPOINT /go/bin/hello_go
+
+EXPOSE 3000
+```
+
+Build the image
+
+```sh
+docker build -t hello_go .
+```
+
+Run a container with the image we just built
+```
+docker run -p 3000:3000 hello_go
+```
+
