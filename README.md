@@ -6,7 +6,7 @@ Let's create a Hello World! app in [Go](https://golang.org/) to keep things simp
 
 ```go
 // main.go
-package hello_go
+package main
 
 import (
   "fmt"
@@ -60,3 +60,24 @@ git remote add origin git@github.com:<github-username>/<reponame>.git
 git push origin master
 ```
 
+## 4.) Get started with [Codefresh](https://docs.codefresh.io/docs/create-an-account)
+
+You can sign up for an account with your Github, Bitbucket, or Gitlab account (you will need to sign in with the account from the repo host you want to use).  
+  
+Next up:  
+  * [Create a Basic Pipeline](https://docs.codefresh.io/docs/getting-started-create-a-basic-pipeline)  
+  * [Push to Docker registry](https://docs.codefresh.io/docs/push-image-to-a-docker-registry)  
+
+## 5.) Add [Integration Tests](https://docs.codefresh.io/docs/integration-tests)
+
+We want to run some integration tests, so first let's [Create a Composition](https://docs.codefresh.io/docs/create-composition).
+
+docker-compose.yml
+```
+version: '3'
+services:
+  hello_go:
+    build: .
+    ports:
+    - "3000:3000"
+```
