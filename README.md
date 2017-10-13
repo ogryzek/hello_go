@@ -48,4 +48,15 @@ Run a container with the image we just built
 ```
 docker run -p 3000:3000 hello_go
 ```
+## 3.) Add Source Control
+
+If you haven't already, initialize a git repo, and push your source to somewhere like GitHub
+
+```
+git init
+git add -A
+git commit -m 'I <3 my mom!'
+git remote add origin git@github.com:<github-username>/<reponame>.git
+git push origin master
+```
 
