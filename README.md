@@ -81,3 +81,62 @@ services:
     ports:
     - "3000:3000"
 ```
+Codefresh compositions don't support port mapping. Also, it will try to guess from your service name what the registry image is called.  
+  
+In this case, we should modify the codefresh composition compose file to
+```
+version: '3'
+services:
+  hello_go:
+    ports:
+      - '3000'
+    image: 'ogryzek:hellogo:master'
+```
+
+(**Note**: Glossing over this, because we haven't tagged out build images, and it's looking for "latest" may need to use a codefresh.yml to resolve).
+
+## 6.) Get Ready to Deploy
+
+Let's get ready to [deploy to Kubernetes](https://docs.codefresh.io/docs/get-ready-to-deploy)  
+  
+Sign into [console.cloud.google.com](https://console.cloud.google.com/cloud-resource-manager) and create a new project.  
+  
+Enable [Container Engine API](https://console.cloud.google.com/apis/api/container/overview?project=codefresh-hellogo)  
+  
+Enable [Compute Engine API](https://console.cloud.google.com/apis/api/compute_component/overview)  
+  
+To create a Kubernetes cluster, visit this [short guide](https://cloud.google.com/container-engine/docs/quickstart).  
+
+```shell
+# Set default compute zone
+gcloud config set compute/zone us-west1-a
+
+# create cluster
+gcloud container clusters create hello-go-cluster # this takes a long time (5 minutes+ ?)
+
+# Run container
+kubectl run hello-go --image=ogryzek/hellogo:master --port=3000
+
+
+# Expose the container
+kubectl expose deployment hello-go --type="LoadBalancer" 
+
+# Get public IP
+kubectl get service hello-go # takes about 1 minute to change from pending to having an IP
+
+# the external IP will resolve about 5 minutes after creating it
+```
+
+**Note**: To clean up the cluster (you will be billed)
+
+```
+kubectl delete service hello-go
+gcloud container clusters delete hello-go-cluster
+```
+  
+Next, [deploy to GKE](https://docs.codefresh.io/docs/codefresh-kubernetes-integration-beta)
+
+
+
+
+
