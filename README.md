@@ -14,7 +14,7 @@ import (
   "runtime"
 )
 
-func helloHandler(rw http.ResponseWriter, r *http.REquest) {
+func helloHandler(rw http.ResponseWriter, r *http.Request) {
   fmt.Fprintf(rw, `
       <h1>Hello World!</h1>
       <p>Greetings from %s with an %s CPU.
